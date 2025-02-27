@@ -54,6 +54,7 @@ function createPresenceContext(options: {
           flag: rel.flag,
         }
         const path = [rel.affects, itemKey, relationId]
+        console.log(`atom path: ${path} flag: ${rel.flag}`)
         relationsAtom.setByPointer((p) => pointerDeep(p, path), presence)
         return path
       })
@@ -162,6 +163,7 @@ export default function usePresence(key: StudioSheetItemKey | undefined): {
     },
     flag,
     useRelations(getRelations, deps) {
+      if (flag === undefined) return
       useEffect(() => {
         return key && presenceInternal.addRelatedFlags(key, getRelations())
       }, [key, ...deps])
