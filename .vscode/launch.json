@@ -1,10 +1,12 @@
 {
   "configurations": [
     {
-      "type": "pwa-chrome",
+      "type": "chrome",
       "name": "Browser",
       "request": "launch",
-      "url": "https://dev.theatre.local:10022/"
+      "url": "http://localhost:8082/shared/MMD/",
+      "sourceMaps": true,
+      "webRoot": "${workspaceFolder}/theatre",
     }
   ]
 }
