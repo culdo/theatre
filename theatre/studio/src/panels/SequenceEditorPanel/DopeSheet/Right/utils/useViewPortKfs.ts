@@ -1,5 +1,5 @@
-import type {Pointer} from '@theatre/dataverse';
-import { val} from '@theatre/dataverse'
+import type {Pointer} from '@theatre/dataverse'
+import {val} from '@theatre/dataverse'
 import {usePrism} from '@theatre/react'
 import type {Keyframe} from '@theatre/core/projects/store/types/SheetState_Historic'
 import type {TrackData} from '@theatre/core/projects/store/types/SheetState_Historic'
@@ -22,7 +22,7 @@ function useViewPortKfs(range: Pointer<IRange>, trackData: TrackData) {
       }
     }
     return results
-  }, [range])
+  }, [range, trackData])
 }
 
 function useViewPortAggregatedKfs(
