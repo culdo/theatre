@@ -1,0 +1,32 @@
+name: Release on Github
+on: push
+
+jobs:
+  release:
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - uses: ./.github/actions/yarn-nm-install
+
+      - name: Build the Theatre.js packages
+        run: yarn cli build
+      
+      - name: Pack core
+        working-directory: ./theatre/core
+        run: yarn pack
+
+      - name: Pack studio
+        working-directory: ./theatre/studio
+        run: yarn pack
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ./theatre/core/package.tgz
+            ./theatre/studio/package.tgz
