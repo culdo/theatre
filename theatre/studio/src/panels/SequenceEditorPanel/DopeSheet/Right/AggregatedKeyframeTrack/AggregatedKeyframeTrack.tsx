@@ -54,6 +54,7 @@ import {
 } from '@theatre/studio/panels/SequenceEditorPanel/DopeSheet/Right/KeyframeSnapTarget'
 import {collectAggregateSnapPositionsSheet} from '@theatre/studio/panels/SequenceEditorPanel/DopeSheet/Right/collectAggregateKeyframes'
 import type {Keyframe} from '@theatre/core/projects/store/types/SheetState_Historic'
+import {useViewPortAggregatedKfs} from '@theatre/studio/panels/SequenceEditorPanel/DopeSheet/Right/utils/useViewPortKfs'
 
 const AggregatedKeyframeTrackContainer = styled.div`
   position: relative;
@@ -98,7 +99,7 @@ function AggregatedKeyframeTrack_memo(props: IAggregatedKeyframeTracksProps) {
     () => logger._debug('see aggregatedKeyframes', props.aggregatedKeyframes),
   )
 
-  const posKfs: IAggregateKeyframesAtPosition[] = useMemo(
+  const posKfsAll: IAggregateKeyframesAtPosition[] = useMemo(
     () =>
       [...aggregatedKeyframes.byPosition.entries()]
         .sort((a, b) => a[0] - b[0])
@@ -112,6 +113,8 @@ function AggregatedKeyframeTrack_memo(props: IAggregatedKeyframeTracksProps) {
         ),
     [aggregatedKeyframes, selectedPositions],
   )
+
+  const posKfs = useViewPortAggregatedKfs(layoutP.clippedSpace.range, posKfsAll)
 
   const snapPositionsState = useVal(snapPositionsStateD)
 

@@ -18,6 +18,7 @@ import KeyframeSnapTarget, {
   snapPositionsStateD,
 } from '@theatre/studio/panels/SequenceEditorPanel/DopeSheet/Right/KeyframeSnapTarget'
 import {createStudioSheetItemKey} from '@theatre/shared/utils/ids'
+import {useViewPortKfs} from '@theatre/studio/panels/SequenceEditorPanel/DopeSheet/Right/utils/useViewPortKfs'
 
 const Container = styled.div`
   position: relative;
@@ -82,22 +83,28 @@ const BasicKeyframedTrack: React.VFC<BasicKeyframedTracksProps> = React.memo(
       [trackData, leaf.trackId],
     )
 
-    const keyframeEditors = trackData.keyframes.map((kf, index) => (
-      <SingleKeyframeEditor
-        key={'keyframe-' + kf.id}
-        itemKey={createStudioSheetItemKey.forTrackKeyframe(
-          leaf.sheetObject,
-          leaf.trackId,
-          kf.id,
-        )}
-        keyframe={kf}
-        index={index}
-        track={track}
-        layoutP={layoutP}
-        leaf={leaf}
-        selection={selectedKeyframeIds[kf.id] === true ? selection : undefined}
-      />
-    ))
+    const viewPortKfs = useViewPortKfs(layoutP.clippedSpace.range, trackData)
+    const keyframeEditors = viewPortKfs.map((kfInfo) => {
+      const [kf, index] = kfInfo
+      return (
+        <SingleKeyframeEditor
+          key={'keyframe-' + kf.id}
+          itemKey={createStudioSheetItemKey.forTrackKeyframe(
+            leaf.sheetObject,
+            leaf.trackId,
+            kf.id,
+          )}
+          keyframe={kf}
+          index={index}
+          track={track}
+          layoutP={layoutP}
+          leaf={leaf}
+          selection={
+            selectedKeyframeIds[kf.id] === true ? selection : undefined
+          }
+        />
+      )
+    })
 
     const snapTargets = snapPositions.map((position) => (
       <KeyframeSnapTarget
@@ -110,14 +117,17 @@ const BasicKeyframedTrack: React.VFC<BasicKeyframedTracksProps> = React.memo(
 
     const additionalSnapTargets = !snapToAllKeyframes
       ? null
-      : trackData.keyframes.map((kf) => (
-          <KeyframeSnapTarget
-            key={`additionalSnapTarget-${kf.id}`}
-            layoutP={layoutP}
-            leaf={leaf}
-            position={kf.position}
-          />
-        ))
+      : viewPortKfs.map((kfInfo) => {
+          const [kf, _] = kfInfo
+          return (
+            <KeyframeSnapTarget
+              key={`additionalSnapTarget-${kf.id}`}
+              layoutP={layoutP}
+              leaf={leaf}
+              position={kf.position}
+            />
+          )
+        })
 
     return (
       <Container
