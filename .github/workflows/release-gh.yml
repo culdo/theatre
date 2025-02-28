@@ -19,16 +19,16 @@ jobs:
       
       - name: Pack core
         working-directory: ./theatre/core
-        run: yarn pack
+        run: yarn pack --out core.tgz
 
       - name: Pack studio
         working-directory: ./theatre/studio
-        run: yarn pack
+        run: yarn pack --out studio.tgz
 
       - name: Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            ./theatre/core/package.tgz
-            ./theatre/studio/package.tgz
+            ./theatre/core/core.tgz
+            ./theatre/studio/studio.tgz
