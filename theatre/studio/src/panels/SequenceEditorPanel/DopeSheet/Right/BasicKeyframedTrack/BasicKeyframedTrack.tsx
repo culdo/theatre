@@ -18,7 +18,7 @@ import KeyframeSnapTarget, {
   snapPositionsStateD,
 } from '@theatre/studio/panels/SequenceEditorPanel/DopeSheet/Right/KeyframeSnapTarget'
 import {createStudioSheetItemKey} from '@theatre/shared/utils/ids'
-import {useViewPortKfs} from '@theatre/studio/panels/SequenceEditorPanel/DopeSheet/Right/utils/useViewPortKfs'
+import {useViewPortKfs} from '@theatre/studio/panels/SequenceEditorPanel/utils/useViewPortKfs'
 
 const Container = styled.div`
   position: relative;
@@ -66,11 +66,11 @@ const BasicKeyframedTrack: React.VFC<BasicKeyframedTracksProps> = React.memo(
     const snapPositionsState = useVal(snapPositionsStateD)
 
     const snapPositions =
-      snapPositionsState.mode === 'snapToSome'
+      (snapPositionsState.mode === 'snapToSome'
         ? snapPositionsState.positions[leaf.sheetObject.address.objectKey]?.[
             leaf.trackId
           ]
-        : [] ?? []
+        : []) ?? []
 
     const snapToAllKeyframes = snapPositionsState.mode === 'snapToAll'
 
@@ -84,8 +84,7 @@ const BasicKeyframedTrack: React.VFC<BasicKeyframedTracksProps> = React.memo(
     )
 
     const viewPortKfs = useViewPortKfs(layoutP.clippedSpace.range, trackData)
-    const keyframeEditors = viewPortKfs.map((kfInfo) => {
-      const [kf, index] = kfInfo
+    const keyframeEditors = viewPortKfs.map(([kf, index]) => {
       return (
         <SingleKeyframeEditor
           key={'keyframe-' + kf.id}

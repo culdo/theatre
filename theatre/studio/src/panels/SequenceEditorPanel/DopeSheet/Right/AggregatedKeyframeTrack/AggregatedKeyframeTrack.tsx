@@ -54,7 +54,7 @@ import {
 } from '@theatre/studio/panels/SequenceEditorPanel/DopeSheet/Right/KeyframeSnapTarget'
 import {collectAggregateSnapPositionsSheet} from '@theatre/studio/panels/SequenceEditorPanel/DopeSheet/Right/collectAggregateKeyframes'
 import type {Keyframe} from '@theatre/core/projects/store/types/SheetState_Historic'
-import {useViewPortAggregatedKfs} from '@theatre/studio/panels/SequenceEditorPanel/DopeSheet/Right/utils/useViewPortKfs'
+import {useViewPortAggregatedKfs} from '@theatre/studio/panels/SequenceEditorPanel/utils/useViewPortKfs'
 
 const AggregatedKeyframeTrackContainer = styled.div`
   position: relative;

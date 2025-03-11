@@ -19,6 +19,7 @@ import {
 } from '@theatre/shared/propTypes/utils'
 import type {PropTypeConfig_AllSimples} from '@theatre/core/propTypes'
 import {useVal} from '@theatre/react'
+import {useViewPortKfs} from '@theatre/studio/panels/SequenceEditorPanel/utils/useViewPortKfs'
 
 export type ExtremumSpace = {
   fromValueSpace: (v: number) => number
@@ -94,7 +95,8 @@ const BasicKeyframedTrack: React.VFC<{
       cachedExtremumSpace.current = extremumSpace
     }
 
-    const keyframeEditors = trackData.keyframes.map((kf, index) => (
+    const viewPortKfs = useViewPortKfs(layoutP.clippedSpace.range, trackData)
+    const keyframeEditors = viewPortKfs.map(([kf, index]) => (
       <KeyframeEditor
         pathToProp={pathToProp}
         propConfig={propConfig}
