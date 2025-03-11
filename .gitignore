@@ -25,3 +25,6 @@
 
 /compat-tests/*/.yarn
 /compat-tests/*/build
+
+# ignore tgz
+*.tgz
