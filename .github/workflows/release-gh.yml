@@ -28,6 +28,10 @@ jobs:
         working-directory: ./theatre/studio
         run: yarn pack --out studio.tgz
 
+      - name: Pack r3f
+        working-directory: ./packages/r3f
+        run: yarn pack --out r3f.tgz
+
       - name: Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
@@ -35,3 +39,4 @@ jobs:
           files: |
             ./theatre/core/core.tgz
             ./theatre/studio/studio.tgz
+            ./packages/r3f/r3f.tgz
